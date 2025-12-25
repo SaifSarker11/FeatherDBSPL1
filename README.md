@@ -1,12 +1,12 @@
-# SPL1 — Minimal SQLite-like Engine (Lab 1)
+# FeatherDb
 
-This repository contains a small educational project for the third-semester software lab: a minimal SQLite-like database engine written in C++ with a tiny, intentionally incomplete feature set. The codebase currently provides a clean object-oriented skeleton and placeholders for parser, query handling, storage, and utilities.
+This repository contains a small educational project for the third-semester software lab: a minimal SQLite-like database engine written in C++ with a tiny, feature set. The codebase currently provides a clean object-oriented skeleton and placeholders for parser, query handling, storage, and utilities.
 
 Key goals
 - Provide a minimal, learnable codebase for database internals (parser, storage, query executor).
-- Keep implementations small and explicit so students can extend and implement features.
+- Keep implementations small and explicit that can extend and implement features.
 
-Repository layout (selected)
+Current Repository layout 
 - `src/` — source code (entrypoint: `src/main.cpp`).
 - `src/parser/` — tokenizer, parser, AST.
 - `src/query/` — query objects and executor.
@@ -33,10 +33,10 @@ Notes
 - The current files are intentionally skeletons and stubs: no real database logic is implemented yet. Use this as a starting point for implementing parsing, execution, and storage behavior.
 
 Team
-- `safwansatil`
-- `wasiomar`
-- `saifsarker11`
+- [safwansatil](github.com/safwansatil)
+- [saif al sarker](https://github.com/SaifSarker11)
+- [wasiomar](https://github.com/WasiOmar)
 
-Good luck with Lab 1 — Inshallah this helps you get started.
+"I've got no choice. We're cornered, so I have to teach you. First off, Johnny, let me tell you one thing. Starting now, you can only say the words, 'There is no way I can do this!' four times, and four times only. Alright? Four times. That's what my father taught me when I was a kid."
 
-# FeatherDb
+
