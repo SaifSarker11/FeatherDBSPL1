@@ -21,12 +21,15 @@ public:
 	std::vector<std::string> columns;
 	std::string table;
 	std::string condition;
-	std::unique_ptr<AST> nestedFrom; // Supports nested queries in FROM
+	std::unique_ptr<AST> nestedFrom; // nested from er jnno
 
 	SelectStatement(const std::vector<std::string> &cols, const std::string &tbl,
 					const std::string &cond, std::unique_ptr<AST> nested = nullptr);
 	std::string toString() const override;
 };
+
+
+
 
 class InsertStatement : public AST
 {

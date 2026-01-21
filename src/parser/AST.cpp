@@ -48,6 +48,7 @@ std::string UpdateStatement::toString() const
     oss << "UPDATE " << table << " SET " << column << " = " << value;
     if (!condition.empty())
         oss << " WHERE " << condition;
+    std::printf("Statement updated\n"); // TODO: rmv
     return oss.str();
 }
 
@@ -60,5 +61,6 @@ std::string DeleteStatement::toString() const
     oss << "DELETE FROM " << table;
     if (!condition.empty())
         oss << " WHERE " << condition;
+        std::printf("Statement deleted\n"); // TODO: rmv
     return oss.str();
 }
