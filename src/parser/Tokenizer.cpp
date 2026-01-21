@@ -13,7 +13,7 @@ bool Tokenizer::isWhitespace(char c) const
 
 bool Tokenizer::isKeyword(const std::string &str) const
 {
-	// You can extend this with more SQL keywords if needed
+	// extensible
 	static const std::vector<std::string> keywords = {
 		"SELECT", "INSERT", "UPDATE", "DELETE", "FROM", "WHERE", "AND", "OR", "VALUES", "LIMIT"};
 	for (const auto &keyword : keywords)
@@ -106,14 +106,14 @@ std::string Tokenizer::nextToken()
 		}
 		currentTokenType = TokenType::NUMBER;
 	}
-	// Handle identifiers (e.g., table names, column names)
+	// Handle identifiers 
 	else if (isIdentifierStart(currentChar))
 	{
 		while (position < input.size() && isIdentifierPart(input[position]))
 		{
 			currentToken += input[position++];
 		}
-		// Check if it's a keyword
+		// Check for keyword
 		if (isKeyword(currentToken))
 		{
 			currentTokenType = TokenType::KEYWORD;
