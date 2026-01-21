@@ -1,19 +1,43 @@
-#ifndef SPL_TOKENIZER_H
-#define SPL_TOKENIZER_H
+#ifndef TOKENIZER_H
+#define TOKENIZER_H
 
 #include <string>
 #include <vector>
 
-namespace spl {
-
-class Tokenizer {
+class Tokenizer
+{
 public:
-	Tokenizer() = default;
-	virtual ~Tokenizer() = default;
+	enum class TokenType
+	{
+		KEYWORD,
+		IDENTIFIER,
+		NUMBER,
+		STRING,
+		OPERATOR,
+		PUNCTUATION,
+		END,
+		INVALID
+	};
 
-	std::vector<std::string> tokenize(const std::string &input) const;
+	Tokenizer(const std::string &input);
+	std::string nextToken();
+	bool hasNext() const;
+	TokenType getLastTokenType() const;
+
+private:
+	std::string input;
+	size_t position;
+	std::string currentToken;
+	TokenType currentTokenType;
+
+	bool isWhitespace(char c) const;
+	bool isKeyword(const std::string &str) const;
+	bool isOperator(char c) const;
+	bool isNumber(char c) const;
+	bool isIdentifierStart(char c) const;
+	bool isIdentifierPart(char c) const;
+	bool isStringDelimiter(char c) const;
+	bool isPunctuation(char c) const;
 };
 
-} // namespace spl
-
-#endif // SPL_TOKENIZER_H
+#endif

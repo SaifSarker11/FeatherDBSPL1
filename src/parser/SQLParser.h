@@ -1,20 +1,30 @@
-#ifndef SPL_SQLPARSER_H
-#define SPL_SQLPARSER_H
+#ifndef SQLPARSER_H
+#define SQLPARSER_H
 
-#include <string>
-#include "Ast.h"
+#include "Tokenizer.h"
+#include "AST.h"
+#include <memory>
 
-namespace spl {
-
-class SqlParser {
+class SQLParser
+{
 public:
-	SqlParser() = default;
-	virtual ~SqlParser() = default;
+	SQLParser(Tokenizer &tokenizer);
+	std::unique_ptr<AST> parse();
 
-	// Parse SQL text into an AST. No logic implemented here.
-	Ast parse(const std::string &sql) const;
+private:
+	Tokenizer &tokenizer;
+	std::string currentToken;
+	Tokenizer::TokenType currentType;
+
+	void advance();
+	void expect(const std::string &value);
+	void expect(Tokenizer::TokenType type);
+
+	std::unique_ptr<AST> parseSelect();
+	std::unique_ptr<AST> parseInsert();
+	std::unique_ptr<AST> parseUpdate();
+	std::unique_ptr<AST> parseDelete();
+	std::vector<std::string> parseIdentifierList();
 };
 
-} // namespace spl
-
-#endif // SPL_SQLPARSER_H
+#endif
