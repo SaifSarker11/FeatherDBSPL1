@@ -52,7 +52,41 @@ std::unique_ptr<AST> SQLParser::parse()
 		return parseUpdate();
 	if (currentToken == "DELETE")
 		return parseDelete();
+	if (currentToken == "CREATE")
+		return parseCreate();
 	throw std::runtime_error("Unknown SQL command");
+}
+
+std::unique_ptr<AST> SQLParser::parseCreate()
+{
+	advance(); // CREATE
+	expect("TABLE");
+	std::string table = currentToken;
+	expect(Tokenizer::TokenType::IDENTIFIER);
+	expect("(");
+
+	std::vector<std::pair<std::string, std::string>> columns;
+	while (currentToken != ")" && currentToken != ";")
+	{
+		std::string name = currentToken;
+		expect(Tokenizer::TokenType::IDENTIFIER);
+		std::string type = currentToken;
+		// Type can be identifier or keyword, just consume it.
+		// Use simple advance to consume type.
+		if (currentType != Tokenizer::TokenType::IDENTIFIER && currentType != Tokenizer::TokenType::KEYWORD) {
+             throw std::runtime_error("Expected type definition");
+        }
+		advance(); 
+
+		columns.push_back({name, type});
+
+		if (currentToken == ",")
+		{
+			advance();
+		}
+	}
+	expect(")");
+	return std::make_unique<CreateStatement>(table, columns);
 }
 
 std::unique_ptr<AST> SQLParser::parseSelect()
@@ -80,14 +114,23 @@ std::unique_ptr<AST> SQLParser::parseSelect()
 	if (currentToken == "WHERE")
 	{
 		advance();
-		while (currentType != Tokenizer::TokenType::END && currentToken != ")")
+		while (currentType != Tokenizer::TokenType::END && currentToken != ")" && currentToken != "ORDER")
 		{
 			condition += currentToken + " ";
 			advance();
 		}
 	}
 
-	return std::make_unique<SelectStatement>(columns, table, condition, std::move(nestedSource));
+	std::string orderBy;
+	if (currentToken == "ORDER")
+	{
+		advance();
+		expect("BY");
+		orderBy = currentToken; // Simple ORDER BY col
+		advance(); 
+	}
+
+	return std::make_unique<SelectStatement>(columns, table, condition, std::move(nestedSource), orderBy);
 }
 
 std::unique_ptr<AST> SQLParser::parseInsert()
@@ -127,8 +170,12 @@ std::unique_ptr<AST> SQLParser::parseUpdate()
 	if (currentToken == "WHERE")
 	{
 		advance();
-		condition = currentToken;
-		advance();
+        // Capture everything until end or next keyword (UPDATE usually ends with WHERE, but check delimiters)
+		while (currentType != Tokenizer::TokenType::END && currentToken != ";")
+		{
+			condition += currentToken + " ";
+			advance();
+		}
 	}
 	return std::make_unique<UpdateStatement>(table, column, value, condition);
 }
@@ -143,8 +190,12 @@ std::unique_ptr<AST> SQLParser::parseDelete()
 	if (currentToken == "WHERE")
 	{
 		advance();
-		condition = currentToken;
-		advance();
+        // Capture everything until end
+		while (currentType != Tokenizer::TokenType::END && currentToken != ";")
+		{
+			condition += currentToken + " ";
+			advance();
+		}
 	}
 	return std::make_unique<DeleteStatement>(table, condition);
 }
@@ -153,13 +204,13 @@ std::vector<std::string> SQLParser::parseIdentifierList()
 {
 	std::vector<std::string> list;
 
-	// Just grab the identifier
+	// To grab identifier
 	list.push_back(currentToken);
 	advance();
 
 	while (currentToken == ",")
 	{
-		advance(); // consume ,
+		advance(); // consume
 		list.push_back(currentToken);
 		advance();
 	}

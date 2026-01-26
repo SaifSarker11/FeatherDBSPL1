@@ -2,6 +2,8 @@
 #include <sstream>
 #include <cctype>
 #include <stdexcept>
+#include <vector>
+#include <algorithm>
 
 Tokenizer::Tokenizer(const std::string &input)
 	: input(input), position(0), currentTokenType(TokenType::INVALID) {}
@@ -13,12 +15,16 @@ bool Tokenizer::isWhitespace(char c) const
 
 bool Tokenizer::isKeyword(const std::string &str) const
 {
-	// extensible
+    // case-insensitive check
+    std::string upperStr = str;
+    for (auto &c : upperStr) c = std::toupper(c);
+
 	static const std::vector<std::string> keywords = {
-		"SELECT", "INSERT", "UPDATE", "DELETE", "FROM", "WHERE", "AND", "OR", "VALUES", "LIMIT"};
+		"SELECT", "INSERT", "UPDATE", "DELETE", "FROM", "WHERE", "AND", "OR", "VALUES", "LIMIT",
+        "CREATE", "TABLE", "INTO", "SET", "ORDER", "BY", "INT", "STRING", "IN"};
 	for (const auto &keyword : keywords)
 	{
-		if (str == keyword)
+		if (upperStr == keyword)
 		{
 			return true;
 		}
@@ -106,7 +112,7 @@ std::string Tokenizer::nextToken()
 		}
 		currentTokenType = TokenType::NUMBER;
 	}
-	// Handle identifiers 
+	// Handle identifiers
 	else if (isIdentifierStart(currentChar))
 	{
 		while (position < input.size() && isIdentifierPart(input[position]))
@@ -117,6 +123,8 @@ std::string Tokenizer::nextToken()
 		if (isKeyword(currentToken))
 		{
 			currentTokenType = TokenType::KEYWORD;
+            // Normalize to uppercase for Parser
+            for (auto &c : currentToken) c = std::toupper(c);
 		}
 		else
 		{
