@@ -24,6 +24,7 @@ private:
 	std::unique_ptr<AST> parseInsert();
 	std::unique_ptr<AST> parseUpdate();
 	std::unique_ptr<AST> parseDelete();
+	std::unique_ptr<AST> parseCreate();
 	std::vector<std::string> parseIdentifierList();
 };
 

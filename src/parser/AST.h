@@ -22,9 +22,10 @@ public:
 	std::string table;
 	std::string condition;
 	std::unique_ptr<AST> nestedFrom; // nested from er jnno
+	std::string orderBy;
 
 	SelectStatement(const std::vector<std::string> &cols, const std::string &tbl,
-					const std::string &cond, std::unique_ptr<AST> nested = nullptr);
+					const std::string &cond, std::unique_ptr<AST> nested = nullptr, const std::string &order = "");
 	std::string toString() const override;
 };
 
@@ -62,6 +63,26 @@ public:
 
 	DeleteStatement(const std::string &tbl, const std::string &cond);
 	std::string toString() const override;
+};
+
+class CreateStatement : public AST
+{
+public:
+	std::string table;
+	std::vector<std::pair<std::string, std::string>> columns;
+
+	CreateStatement(const std::string &tbl, const std::vector<std::pair<std::string, std::string>> &cols)
+		: AST("CREATE"), table(tbl), columns(cols) {}
+	
+	std::string toString() const override {
+		std::string ret = "CREATE TABLE " + table + " (";
+		for (size_t i = 0; i < columns.size(); ++i) {
+			ret += columns[i].first + " " + columns[i].second;
+			if (i < columns.size() - 1) ret += ", ";
+		}
+		ret += ")";
+		return ret;
+	}
 };
 
 #endif

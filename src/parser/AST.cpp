@@ -1,8 +1,8 @@
 #include "AST.h"
 
 SelectStatement::SelectStatement(const std::vector<std::string> &cols, const std::string &tbl,
-                                 const std::string &cond, std::unique_ptr<AST> nested)
-    : AST("SELECT"), columns(cols), table(tbl), condition(cond), nestedFrom(std::move(nested)) {}
+                                 const std::string &cond, std::unique_ptr<AST> nested, const std::string &order)
+    : AST("SELECT"), columns(cols), table(tbl), condition(cond), nestedFrom(std::move(nested)), orderBy(order) {}
 
 std::string SelectStatement::toString() const
 {
@@ -20,6 +20,10 @@ std::string SelectStatement::toString() const
 
     if (!condition.empty())
         oss << " WHERE " << condition;
+    
+    if (!orderBy.empty())
+        oss << " ORDER BY " << orderBy;
+
     return oss.str();
 }
 
