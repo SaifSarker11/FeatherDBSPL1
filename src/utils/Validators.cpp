@@ -2,9 +2,7 @@
 
 namespace spl {
 
-bool Validators::validateIdentifier(const std::string & /*id*/) const {
-	// stub
-	return false;
-}
+// stub 
+
 
 } // namespace spl
