@@ -1,5 +1,7 @@
 
 #include "Print.h"
+
+
 void printHelp()
 {
     std::cout << "FeatherDB Meta-Commands:\n";
@@ -11,4 +13,9 @@ void printHelp()
 
 void printPrompt(){
     std::cout << "featherDb> ";
+}
+
+void printIntro(char* version){
+    std::cout << "FeatherDB" << " v" << version << std::endl;
+    std::cout << "Type .help for instructions.\n";
 }

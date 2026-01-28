@@ -5,5 +5,6 @@
 void printHelp();
 // Repititvely ask for prompt
 void printPrompt();
+void printIntro(char* version);
 
 #endif // PRINT_H

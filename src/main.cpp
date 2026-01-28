@@ -10,13 +10,12 @@ using namespace spl;
 
 int main()
 {
-    std::cout << "FeatherDB" << " v" << version << "\n";
-    std::cout << "Type .help for instructions.\n";
+    printIntro((char *)version);
 
     std::string input;
     while (true)
     {
-        std::cout << "featherdb> ";
+        printPrompt();
         std::getline(std::cin, input);
 
         if (input.empty())
