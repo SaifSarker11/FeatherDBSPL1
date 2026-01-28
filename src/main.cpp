@@ -4,12 +4,13 @@
 #include "storage/StorageManager.h"
 #include "utils/Print.h"
 
-using namespace spl;
+#define version "1.0.1"
 
+using namespace spl;
 
 int main()
 {
-    std::cout << "FeatherDB v1.0.0\n";
+    std::cout << "FeatherDB" << " v" << version << "\n";
     std::cout << "Type .help for instructions.\n";
 
     std::string input;
