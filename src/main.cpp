@@ -1,23 +1,11 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <sstream>
-
 #include "parser/Tokenizer.h"
 #include "parser/SQLParser.h"
 #include "query/QueryExecutor.h"
 #include "storage/StorageManager.h"
+#include "utils/Print.h"
 
 using namespace spl;
 
-void printHelp()
-{
-    std::cout << "FeatherDB Meta-Commands:\n";
-    std::cout << "  .help            Show this help message\n";
-    std::cout << "  .exit            Exit the database\n";
-    std::cout << "  .tables          List all tables\n";
-    std::cout << "  .schema <table>  Show schema for a table\n";
-}
 
 int main()
 {

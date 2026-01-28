@@ -1,9 +1,7 @@
 #include "Tokenizer.h"
-#include <sstream>
-#include <cctype>
-#include <stdexcept>
-#include <vector>
-#include <algorithm>
+
+#include <stdexcept> // only used for throwing errors, gracefully (in some parts only)
+
 
 Tokenizer::Tokenizer(const std::string &input)
 	: input(input), position(0), currentTokenType(TokenType::INVALID) {}

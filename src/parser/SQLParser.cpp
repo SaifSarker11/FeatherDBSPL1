@@ -1,5 +1,5 @@
 #include "SQLParser.h"
-#include <stdexcept>
+
 
 SQLParser::SQLParser(Tokenizer &tokenizer) : tokenizer(tokenizer)
 {

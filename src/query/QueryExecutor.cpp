@@ -1,12 +1,11 @@
+#include <iostream>
+#include <set>
+
 #include "QueryExecutor.h"
 #include "../storage/StorageManager.h"
 #include "../parser/Tokenizer.h"
 #include "../parser/SQLParser.h"
-#include <iostream>
-#include <algorithm>
-#include <cctype>
-#include <set>
-#include <sstream>
+
 
 namespace spl {
 
